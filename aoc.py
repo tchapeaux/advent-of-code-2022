@@ -36,10 +36,12 @@ def getInputForDay(dayNbr, force_filepath=None):
 
         YEAR = os.environ["YEAR"]
         AOC_TOKEN = os.environ["AOC_TOKEN"]
+        EMAIL = os.environ["EMAIL"]
 
         url = urlForDay(YEAR, dayNbr)
         cookies = dict(session=AOC_TOKEN)
-        r = requests.get(url, cookies=cookies)
+        headers = {"User-Agent": "Custom script by " + EMAIL}
+        r = requests.get(url, cookies=cookies, headers=headers)
         with open(filepath, "w") as f:
             f.write(r.text)
 
