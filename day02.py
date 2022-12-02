@@ -68,4 +68,4 @@ for line in data:
 print("Part 1", cumulativeSum1)
 print("Part 2", cumulativeSum2)
 
-# Part 2 10318 too low
+# Part 2 10318 too low (swapped the order of winDict and loseDict)
