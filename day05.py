@@ -7,8 +7,8 @@ data = aoc.getInputForDay(5)
 
 # First we parse the data
 
-[gridStr, instructions_str] = data.split("\n\n")
-instructions_str = instructions_str.strip().split("\n")
+[gridStr, instructionsStr] = data.split("\n\n")
+instructionsStr = instructionsStr.strip().split("\n")
 
 # Parse the grid first
 
@@ -34,12 +34,13 @@ for row in gridAsMatrix[::-1]:
 
 
 def extractNumbersOnly(sourceStr):
-    # Found this bit of code at https://www.geeksforgeeks.org/python-extract-numbers-from-string/
+    # Found this bit of code at
+    # https://www.geeksforgeeks.org/python-extract-numbers-from-string/
     return [int(x) for x in sourceStr.split(" ") if x.isdigit()]
 
 
 instructions = []
-for instr in instructions_str:
+for instr in instructionsStr:
     values = extractNumbersOnly(instr)
     assert len(values) == 3
     assert 1 <= values[1] <= nbOfStacks
@@ -52,6 +53,7 @@ newStacks = deepcopy(stacks)
 
 for [quantity, fromStackIdx, toStackIdx] in instructions:
     for _ in range(quantity):
+        # beware the -1 because stacks idx from the input start at 1
         value = newStacks[fromStackIdx - 1].pop()
         newStacks[toStackIdx - 1].append(value)
 
@@ -60,12 +62,18 @@ for [quantity, fromStackIdx, toStackIdx] in instructions:
 print("Part 1", "".join([s[-1] for s in newStacks]))
 
 # Perform the instructions on the grid (Part 2)
-# This time, for instructions with quantity > 1, crates are moved in the same order
+
+# This time, for instructions with quantity > 1,
+# crates are moved in bulk, not one at a time
 
 newStacks2 = deepcopy(stacks)
 
 for [quantity, fromStackIdx, toStackIdx] in instructions:
+    # We use a buffer so that the order of crates moved is
+    # actually reversed twice (once to go in the buffer and once to go out)
+
     buffer = deque()
+
     for _ in range(quantity):
         value = newStacks2[fromStackIdx - 1].pop()
         buffer.append(value)
