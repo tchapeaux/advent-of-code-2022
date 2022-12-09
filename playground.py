@@ -11,3 +11,7 @@ aoc.getInputForDay(1)
 
 
 print(re.search(r"x*", "xxxx"))
+
+listOfList = [[0, 0] for _ in range(4)]
+listOfList[0][1] = 1
+print(listOfList)
