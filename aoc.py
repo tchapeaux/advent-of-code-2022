@@ -11,9 +11,13 @@
 # see https://www.reddit.com/r/adventofcode/comments/3v64sb/aoc_is_fragile_please_be_gentle/
 
 import os
+import math
+import time
 from typing import Any, Iterator, List, Optional
 
 GridType = List[List[Any]]
+
+tickWhenLoaded: float = time.time()
 
 
 def urlForDay(year: int, dayNbr: int) -> str:
@@ -95,3 +99,7 @@ def get8Neighbors(grid: GridType, x: int, y: int) -> Iterator[tuple[int, int, An
 
 def manhattanDistance(x1: int, y1: int, x2: int, y2: int) -> int:
     return abs(y2 - y1) + abs(x2 - x1)
+
+
+def getTick() -> float:
+    return round(time.time() - tickWhenLoaded, 2)

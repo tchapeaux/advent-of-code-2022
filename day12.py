@@ -1,7 +1,10 @@
 import heapq
+import time
 from typing import List, Optional
 
 import aoc
+
+startTick = time.time()
 
 Coords = tuple[int, int]
 
@@ -19,11 +22,11 @@ eX, eY = None, None
 for y in range(HEIGHT):
     for x in range(WIDTH):
         if grid[y][x] == "S":
-            print("Found S", x, y)
+            print(f"✅ Found S: ({x}, {y})")
             sX, sY = x, y
         if grid[y][x] == "E":
             eX, eY = x, y
-            print("Found E", x, y)
+            print(f"✅ Found E: ({x}, {y})")
 
 assert sX is not None and sY is not None
 assert eX is not None and eY is not None
@@ -80,6 +83,7 @@ start = (sX, sY)
 goal = (eX, eY)
 part1Length = getPathLength(start, goal)
 print("Part 1", part1Length)
+print("Found in ", aoc.getTick())
 
 # Part 2 - Explore all starting point and find closest to end point
 startingPoints = set()
@@ -93,8 +97,10 @@ currentBestStart = start
 for (_x, _y) in startingPoints:
     thisPathLength = getPathLength((_x, _y), goal, knownMax=currentBestLength)
     if thisPathLength < currentBestLength:
-        print("Found better", _x, _y, "of length", thisPathLength)
+        print("\tFound better", _x, _y, "of length", thisPathLength)
+        print("\tFound in ", aoc.getTick())
         currentBestLength = thisPathLength
         currentBestStart = (_x, _y)
 
 print("Part 2", currentBestLength)
+print("\tFound in ", aoc.getTick())
