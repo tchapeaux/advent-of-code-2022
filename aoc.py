@@ -11,18 +11,21 @@
 # see https://www.reddit.com/r/adventofcode/comments/3v64sb/aoc_is_fragile_please_be_gentle/
 
 import os
+from typing import Any, Iterator, List, Optional
+
+GridType = List[List[Any]]
 
 
-def urlForDay(year, dayNbr):
+def urlForDay(year: int, dayNbr: int) -> str:
     return f"https://adventofcode.com/{year}/day/{dayNbr}/input"
 
 
-def filepathForDay(dayNbr):
-    dayStr = str(dayNbr).rjust(2, "0")
+def filepathForDay(dayNbr: int) -> str:
+    dayStr: str = str(dayNbr).rjust(2, "0")
     return f"inputs/day{dayStr}_input.txt"
 
 
-def getInputForDay(dayNbr, force_filepath=None):
+def getInputForDay(dayNbr: int, force_filepath: Optional[str] = None) -> str:
     if force_filepath:
         with open(force_filepath) as f:
             return f.read()
@@ -34,7 +37,7 @@ def getInputForDay(dayNbr, force_filepath=None):
 
         load_dotenv()
 
-        YEAR = os.environ["YEAR"]
+        YEAR = int(os.environ["YEAR"])
         AOC_TOKEN = os.environ["AOC_TOKEN"]
         EMAIL = os.environ["EMAIL"]
 
@@ -49,22 +52,22 @@ def getInputForDay(dayNbr, force_filepath=None):
         return f.read()
 
 
-def getLinesForDay(dayNbr, force_filepath=None):
+def getLinesForDay(dayNbr: int, force_filepath=None) -> List[str]:
     raw = getInputForDay(dayNbr, force_filepath)
     return [l.strip() for l in raw.strip().split("\n")]
 
 
-def getCellsForDay(dayNbr, force_filepath=None):
+def getCellsForDay(dayNbr, force_filepath=None) -> List[List[str]]:
     linesInput = getLinesForDay(dayNbr, force_filepath)
     return [[c for c in l] for l in linesInput if len(l.strip()) > 0]
 
 
-def getNumberCellsForDay(dayNbr, force_filepath=None):
+def getNumberCellsForDay(dayNbr, force_filepath=None) -> List[List[int]]:
     cellsInput = getCellsForDay(dayNbr, force_filepath)
     return [[int(c) for c in row] for row in cellsInput]
 
 
-def get4Neighbors(grid, x, y):
+def get4Neighbors(grid: GridType, x: int, y: int) -> Iterator[tuple[int, int, Any]]:
     """yield x, y, value for all N, S, E, W neighbors"""
     if y > 0:
         yield (x, y - 1, grid[y - 1][x])
@@ -76,7 +79,7 @@ def get4Neighbors(grid, x, y):
         yield (x + 1, y, grid[y][x + 1])
 
 
-def get8Neighbors(grid, x, y):
+def get8Neighbors(grid: GridType, x: int, y: int) -> Iterator[tuple[int, int, Any]]:
     """yield x, y, value for all N, S, E, W neighbors as well as NW, NE, SW, SE"""
     for dy in [-1, 0, 1]:
         for dx in [-1, 0, 1]:
@@ -88,3 +91,7 @@ def get8Neighbors(grid, x, y):
                 continue
 
             yield (x + dx, y + dy, grid[y + dy][x + dx])
+
+
+def manhattanDistance(x1: int, y1: int, x2: int, y2: int) -> int:
+    return abs(y2 - y1) + abs(x2 - x1)
