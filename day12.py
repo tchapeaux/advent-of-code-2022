@@ -1,9 +1,9 @@
 import heapq
 from typing import List, Optional
 
-Coords = tuple[int, int]
-
 import aoc
+
+Coords = tuple[int, int]
 
 grid: List[List[str]] = aoc.getCellsForDay(12)
 
@@ -26,7 +26,9 @@ for y in range(HEIGHT):
             print("Found E", x, y)
 
 assert sX is not None and sY is not None
-assert eX is not None and sY is not None
+assert eX is not None and eY is not None
+
+# Helper functions for the path-finding
 
 
 def getHeight(cellValue: str) -> int:
@@ -44,8 +46,6 @@ def getPathLength(start, goal, knownMax=None):
     cameFrom: dict[Coords, Optional[Coords]] = {start: None}
     costSoFar: dict[Coords, int] = {start: 0}
 
-    heapq.heapify(frontier)
-
     while len(frontier) > 0:
         current = heapq.heappop(frontier)
         x, y = current[1]
@@ -54,12 +54,12 @@ def getPathLength(start, goal, knownMax=None):
             break
 
         for nextX, nextY, _ in aoc.get4Neighbors(grid, x, y):
-
             currentHeight = getHeight(grid[y][x])
             nextHeight = getHeight(grid[nextY][nextX])
             if nextHeight - currentHeight > 1:
                 continue
 
+            # Each step has a cost of 1
             newCost = costSoFar[(x, y)] + 1
             if knownMax and newCost > knownMax:
                 continue
@@ -69,15 +69,19 @@ def getPathLength(start, goal, knownMax=None):
                 priority = newCost + aoc.manhattanDistance(nextX, nextY, eX, eY)
                 heapq.heappush(frontier, (priority, (nextX, nextY)))
                 cameFrom[(nextX, nextY)] = (x, y)
+
+    # Return length if path found, otherwise a big value
     return costSoFar[goal] if goal in costSoFar else 9999999
 
+
+# Part 1 - Find the path from start
 
 start = (sX, sY)
 goal = (eX, eY)
 part1Length = getPathLength(start, goal)
 print("Part 1", part1Length)
 
-# Part 2: explore all starting point and find closest
+# Part 2 - Explore all starting point and find closest to end point
 startingPoints = set()
 for y in range(HEIGHT):
     for x in range(WIDTH):
