@@ -1,6 +1,7 @@
 import aoc
 
 data = aoc.getLinesForDay(9)
+# data = aoc.getLinesForDay(9, force_filepath="inputs/day09_fun_from_web.txt")
 
 DIR_ENUMS = {"U": (0, -1), "D": (0, 1), "L": (-1, 0), "R": (1, 0)}
 
@@ -50,6 +51,21 @@ def keepUp(headPos, tailPos):
     return newPos
 
 
+def getVisualization(visited):
+    minX = min(int(x[0]) for x in visited)
+    maxX = max(int(x[0]) for x in visited)
+    minY = min(int(x[1]) for x in visited)
+    maxY = max(int(x[1]) for x in visited)
+
+    rows = []
+    for y in range(minY, maxY + 1):
+        row = ""
+        for x in range(minX, maxX + 1):
+            row += "€" if (x, y) in visited else " "
+        rows.append(row)
+    return "\n".join(rows)
+
+
 # Simulate Part 1
 
 headPos = [0, 0]
@@ -68,6 +84,8 @@ for [_dir, _len] in instructions:
         visitedPart1.add((tailPos[0], tailPos[1]))
 
 print("Part 1", len(visitedPart1))
+# print(getVisualization(visitedPart1))
+
 
 # Simulate Part 2 (10 nodes)
 nodesPos = [[0, 0] for _ in range(10)]
@@ -93,3 +111,4 @@ for instrIdx, [_dir, _len] in enumerate(instructions):
         # print("tail", nodesPos, tailNodePos)
         visitedPart2.add((tailNodePos[0], tailNodePos[1]))
 print("Part 2", len(visitedPart2))
+# print(getVisualization(visitedPart2))
