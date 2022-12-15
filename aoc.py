@@ -13,7 +13,7 @@
 import os
 import math
 import time
-from typing import Any, Iterator, List, Optional
+from typing import Any, Iterator, List, Optional, Tuple
 
 GridType = List[List[Any]]
 
@@ -71,7 +71,7 @@ def getNumberCellsForDay(dayNbr, force_filepath=None) -> List[List[int]]:
     return [[int(c) for c in row] for row in cellsInput]
 
 
-def get4Neighbors(grid: GridType, x: int, y: int) -> Iterator[tuple[int, int, Any]]:
+def get4Neighbors(grid: GridType, x: int, y: int) -> Iterator[Tuple[int, int, Any]]:
     """yield x, y, value for all N, S, E, W neighbors"""
     if y > 0:
         yield (x, y - 1, grid[y - 1][x])
@@ -83,7 +83,7 @@ def get4Neighbors(grid: GridType, x: int, y: int) -> Iterator[tuple[int, int, An
         yield (x + 1, y, grid[y][x + 1])
 
 
-def get8Neighbors(grid: GridType, x: int, y: int) -> Iterator[tuple[int, int, Any]]:
+def get8Neighbors(grid: GridType, x: int, y: int) -> Iterator[Tuple[int, int, Any]]:
     """yield x, y, value for all N, S, E, W neighbors as well as NW, NE, SW, SE"""
     for dy in [-1, 0, 1]:
         for dx in [-1, 0, 1]:
