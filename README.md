@@ -7,5 +7,5 @@ _Every day I'm star-searching..._
 ```
             1111111111222222
    1234567890123456789012345
-   VVVVVVVVVVVVVV...........
+   VVVVVVVVVVVVVVV..........
 ```

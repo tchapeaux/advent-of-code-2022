@@ -15,3 +15,10 @@ print(re.search(r"x*", "xxxx"))
 listOfList = [[0, 0] for _ in range(4)]
 listOfList[0][1] = 1
 print(listOfList)
+
+findNumbersRegex = r"(-?\d+)"
+print(
+    re.findall(
+        findNumbersRegex, "Sensor at x=12, y=14: closest beacon is at x=-10, y=16"
+    )
+)
