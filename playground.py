@@ -22,3 +22,9 @@ print(
         findNumbersRegex, "Sensor at x=12, y=14: closest beacon is at x=-10, y=16"
     )
 )
+
+a = (53, "ABC")
+b = (2, "DEF")
+c = (2, "A")
+
+print(tuple(sorted([a, b, c])))
