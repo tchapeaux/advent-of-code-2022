@@ -28,3 +28,9 @@ b = (2, "DEF")
 c = (2, "A")
 
 print(tuple(sorted([a, b, c])))
+
+
+a = "0123456789"
+
+print(a[:-3])
+print(a[-3:])
