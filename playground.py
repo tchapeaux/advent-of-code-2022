@@ -34,3 +34,21 @@ a = "0123456789"
 
 print(a[:-3])
 print(a[-3:])
+
+from enum import Enum
+
+
+class MyEnum(Enum):
+    FOO = 1
+    BAR = 2
+    ZAB = 3
+
+
+for e in MyEnum:
+    print(e)
+
+a = {"a": 3, "b": 2}
+b = {"a": 3, "b": 2}
+print(a is b)
+print(frozenset(a) is frozenset(b))
+print(a == b)
